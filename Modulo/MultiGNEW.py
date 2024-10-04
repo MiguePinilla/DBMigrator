@@ -1,7 +1,7 @@
 from DBConnection import SQLServerConnection
 import QueryTemplates as qt
-#import pandas as pd
-import pdb
+
+#import pdb
 
 def genCreateTable(db, schema, table, esquema):
     columnas = '\n  ,'.join(esquema["SYNTAXIS"])
@@ -48,6 +48,5 @@ if __name__ == "__main__":
         ,'SCHEMA': ['ADP', 'dbo']
         ,'TABLE': ['ATOMO_CREDITOS', 'ACTIVOS']}
 
-    #entrada = pd.DataFrame(datos)
     main(datos)
-    pdb.set_trace()
+    #pdb.set_trace()
