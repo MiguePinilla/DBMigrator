@@ -16,5 +16,5 @@ if __name__ == "__main__":
     migration.genCreateTable()
 
     createTable = migration.getQuerys()
-    #print(createTable["DWH_MIG.PRUEBA.ATOMO_CREDITOS"])
-    migration.runCreateTable()
+    print(createTable["DWH_MIG.PRUEBA.ATOMO_CREDITOS"])
+    #migration.runCreateTable()

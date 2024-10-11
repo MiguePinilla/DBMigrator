@@ -36,6 +36,10 @@ class SQLServerConnection:
         except Exception as e:
             return e
 
+    def cerrar_conexion(self):
+        if self.engine:
+            self.engine.dispose()
+
     def ejecutar_consulta(self, query):
         """
         Ejecuta una consulta (SELECT) y devuelve los resultados en un DataFrame de pandas.
