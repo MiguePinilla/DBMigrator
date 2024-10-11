@@ -1,126 +1,157 @@
 {
     "sqlserver": {
         "int": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "number(10)",
             "postgresql": "integer",
             "mysql": "int"
         },
         "bigint": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "number(19)",
             "postgresql": "bigint",
             "mysql": "bigint"
         },
         "tinyint": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "number(3)",
             "postgresql": "smallint",
             "mysql": "tinyint"
         },
         "smallint": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "number(5)",
             "postgresql": "smallint",
             "mysql": "smallint"
         },
         "decimal(p,s)": {
+            "feature": {"length": false, "precision_scale": true},
+            "oracle": "number(p,s)",
+            "postgresql": "numeric(p,s)",
+            "mysql": "decimal(p,s)"
+        },
+        "numeric(p,s)": {
+            "feature": {"length": false, "precision_scale": true},
             "oracle": "number(p,s)",
             "postgresql": "numeric(p,s)",
             "mysql": "decimal(p,s)"
         },
         "float": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "float",
             "postgresql": "double precision",
             "mysql": "float"
         },
         "real": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "float",
             "postgresql": "real",
             "mysql": "real"
         },
         "bit": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "number(1)",
             "postgresql": "boolean",
             "mysql": "bit"
         },
         "money": {
-            "oracle": "number(p,s)",
+            "feature": {"length": false, "precision_scale": false},
+            "oracle": "number(19, 4)",
             "postgresql": "money",
             "mysql": "decimal(19,4)"
         },
         "smallmoney": {
-            "oracle": "number(p,s)",
+            "feature": {"length": false, "precision_scale": true},
+            "oracle": "number(10, 4)",
             "postgresql": "money",
             "mysql": "decimal(10,4)"
         },
         "datetime": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "date",
             "postgresql": "timestamp",
             "mysql": "datetime"
         },
         "smalldatetime": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "date",
             "postgresql": "timestamp",
             "mysql": "datetime"
         },
         "datetime2": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "timestamp",
             "postgresql": "timestamp",
             "mysql": "datetime"
         },
         "date": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "date",
             "postgresql": "date",
             "mysql": "date"
         },
         "time": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "timestamp",
             "postgresql": "time",
             "mysql": "time"
         },
         "char": {
+            "feature": {"length": true, "precision_scale": false},
             "oracle": "char",
             "postgresql": "char",
             "mysql": "char"
         },
         "varchar": {
+            "feature": {"length": true, "precision_scale": false},
             "oracle": "varchar2",
             "postgresql": "varchar",
             "mysql": "varchar"
         },
         "nchar": {
+            "feature": {"length": true, "precision_scale": false},
             "oracle": "nchar",
             "postgresql": "char",
             "mysql": "nchar"
         },
         "nvarchar": {
+            "feature": {"length": true, "precision_scale": false},
             "oracle": "nvarchar2",
             "postgresql": "varchar",
             "mysql": "nvarchar"
         },
         "text": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "clob",
             "postgresql": "text",
             "mysql": "text"
         },
         "ntext": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "nclob",
             "postgresql": "text",
             "mysql": "text"
         },
         "binary": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "raw",
             "postgresql": "bytea",
             "mysql": "binary"
         },
         "varbinary": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "raw",
             "postgresql": "bytea",
             "mysql": "varbinary"
         },
         "image": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "blob",
             "postgresql": "bytea",
             "mysql": "blob"
         },
         "uniqueidentifier": {
+            "feature": {"length": false, "precision_scale": false},
             "oracle": "raw(16)",
             "postgresql": "uuid",
             "mysql": "binary(16)"
@@ -128,86 +159,103 @@
     },
     "oracle": {
         "number(10)": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "int",
             "postgresql": "integer",
             "mysql": "int"
         },
         "number(19)": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "bigint",
             "postgresql": "bigint",
             "mysql": "bigint"
         },
         "number(3)": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "tinyint",
             "postgresql": "smallint",
             "mysql": "tinyint"
         },
         "number(5)": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "smallint",
             "postgresql": "smallint",
             "mysql": "smallint"
         },
         "number(p,s)": {
+            "feature": {"length": false, "precision_scale": true},
             "sqlserver": "decimal(p,s)",
             "postgresql": "numeric(p,s)",
             "mysql": "decimal(p,s)"
         },
         "float": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "float",
             "postgresql": "double precision",
             "mysql": "float"
         },
         "char": {
+            "feature": {"length": true, "precision_scale": false},
             "sqlserver": "char",
             "postgresql": "char",
             "mysql": "char"
         },
         "varchar2": {
+            "feature": {"length": true, "precision_scale": false},
             "sqlserver": "varchar",
             "postgresql": "varchar",
             "mysql": "varchar"
         },
         "nchar": {
+            "feature": {"length": true, "precision_scale": false},
             "sqlserver": "nchar",
             "postgresql": "char",
             "mysql": "nchar"
         },
         "nvarchar2": {
+            "feature": {"length": true, "precision_scale": false},
             "sqlserver": "nvarchar",
             "postgresql": "varchar",
             "mysql": "nvarchar"
         },
         "clob": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "text",
             "postgresql": "text",
             "mysql": "text"
         },
         "nclob": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "ntext",
             "postgresql": "text",
             "mysql": "text"
         },
         "raw": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "binary",
             "postgresql": "bytea",
             "mysql": "binary"
         },
         "blob": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "varbinary",
             "postgresql": "bytea",
             "mysql": "blob"
         },
         "date": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "datetime",
             "postgresql": "timestamp",
             "mysql": "datetime"
         },
         "timestamp": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "datetime2",
             "postgresql": "timestamp",
             "mysql": "datetime"
         },
         "raw(16)": {
+            "feature": {"length": false, "precision_scale": false},
             "sqlserver": "uniqueidentifier",
             "postgresql": "uuid",
             "mysql": "binary(16)"

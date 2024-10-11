@@ -37,7 +37,7 @@ class SQLServer(DatabaseConnection):
         self.port = port
         self.database = database
         self.engine = None
-        self.type = 'sql_server'
+        self.type = 'sqlserver'
 
     def crear_conexion(self):
         """
