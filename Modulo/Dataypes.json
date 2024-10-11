@@ -1,0 +1,216 @@
+{
+    "sqlserver": {
+        "int": {
+            "oracle": "number(10)",
+            "postgresql": "integer",
+            "mysql": "int"
+        },
+        "bigint": {
+            "oracle": "number(19)",
+            "postgresql": "bigint",
+            "mysql": "bigint"
+        },
+        "tinyint": {
+            "oracle": "number(3)",
+            "postgresql": "smallint",
+            "mysql": "tinyint"
+        },
+        "smallint": {
+            "oracle": "number(5)",
+            "postgresql": "smallint",
+            "mysql": "smallint"
+        },
+        "decimal(p,s)": {
+            "oracle": "number(p,s)",
+            "postgresql": "numeric(p,s)",
+            "mysql": "decimal(p,s)"
+        },
+        "float": {
+            "oracle": "float",
+            "postgresql": "double precision",
+            "mysql": "float"
+        },
+        "real": {
+            "oracle": "float",
+            "postgresql": "real",
+            "mysql": "real"
+        },
+        "bit": {
+            "oracle": "number(1)",
+            "postgresql": "boolean",
+            "mysql": "bit"
+        },
+        "money": {
+            "oracle": "number(p,s)",
+            "postgresql": "money",
+            "mysql": "decimal(19,4)"
+        },
+        "smallmoney": {
+            "oracle": "number(p,s)",
+            "postgresql": "money",
+            "mysql": "decimal(10,4)"
+        },
+        "datetime": {
+            "oracle": "date",
+            "postgresql": "timestamp",
+            "mysql": "datetime"
+        },
+        "smalldatetime": {
+            "oracle": "date",
+            "postgresql": "timestamp",
+            "mysql": "datetime"
+        },
+        "datetime2": {
+            "oracle": "timestamp",
+            "postgresql": "timestamp",
+            "mysql": "datetime"
+        },
+        "date": {
+            "oracle": "date",
+            "postgresql": "date",
+            "mysql": "date"
+        },
+        "time": {
+            "oracle": "timestamp",
+            "postgresql": "time",
+            "mysql": "time"
+        },
+        "char": {
+            "oracle": "char",
+            "postgresql": "char",
+            "mysql": "char"
+        },
+        "varchar": {
+            "oracle": "varchar2",
+            "postgresql": "varchar",
+            "mysql": "varchar"
+        },
+        "nchar": {
+            "oracle": "nchar",
+            "postgresql": "char",
+            "mysql": "nchar"
+        },
+        "nvarchar": {
+            "oracle": "nvarchar2",
+            "postgresql": "varchar",
+            "mysql": "nvarchar"
+        },
+        "text": {
+            "oracle": "clob",
+            "postgresql": "text",
+            "mysql": "text"
+        },
+        "ntext": {
+            "oracle": "nclob",
+            "postgresql": "text",
+            "mysql": "text"
+        },
+        "binary": {
+            "oracle": "raw",
+            "postgresql": "bytea",
+            "mysql": "binary"
+        },
+        "varbinary": {
+            "oracle": "raw",
+            "postgresql": "bytea",
+            "mysql": "varbinary"
+        },
+        "image": {
+            "oracle": "blob",
+            "postgresql": "bytea",
+            "mysql": "blob"
+        },
+        "uniqueidentifier": {
+            "oracle": "raw(16)",
+            "postgresql": "uuid",
+            "mysql": "binary(16)"
+        }
+    },
+    "oracle": {
+        "number(10)": {
+            "sqlserver": "int",
+            "postgresql": "integer",
+            "mysql": "int"
+        },
+        "number(19)": {
+            "sqlserver": "bigint",
+            "postgresql": "bigint",
+            "mysql": "bigint"
+        },
+        "number(3)": {
+            "sqlserver": "tinyint",
+            "postgresql": "smallint",
+            "mysql": "tinyint"
+        },
+        "number(5)": {
+            "sqlserver": "smallint",
+            "postgresql": "smallint",
+            "mysql": "smallint"
+        },
+        "number(p,s)": {
+            "sqlserver": "decimal(p,s)",
+            "postgresql": "numeric(p,s)",
+            "mysql": "decimal(p,s)"
+        },
+        "float": {
+            "sqlserver": "float",
+            "postgresql": "double precision",
+            "mysql": "float"
+        },
+        "char": {
+            "sqlserver": "char",
+            "postgresql": "char",
+            "mysql": "char"
+        },
+        "varchar2": {
+            "sqlserver": "varchar",
+            "postgresql": "varchar",
+            "mysql": "varchar"
+        },
+        "nchar": {
+            "sqlserver": "nchar",
+            "postgresql": "char",
+            "mysql": "nchar"
+        },
+        "nvarchar2": {
+            "sqlserver": "nvarchar",
+            "postgresql": "varchar",
+            "mysql": "nvarchar"
+        },
+        "clob": {
+            "sqlserver": "text",
+            "postgresql": "text",
+            "mysql": "text"
+        },
+        "nclob": {
+            "sqlserver": "ntext",
+            "postgresql": "text",
+            "mysql": "text"
+        },
+        "raw": {
+            "sqlserver": "binary",
+            "postgresql": "bytea",
+            "mysql": "binary"
+        },
+        "blob": {
+            "sqlserver": "varbinary",
+            "postgresql": "bytea",
+            "mysql": "blob"
+        },
+        "date": {
+            "sqlserver": "datetime",
+            "postgresql": "timestamp",
+            "mysql": "datetime"
+        },
+        "timestamp": {
+            "sqlserver": "datetime2",
+            "postgresql": "timestamp",
+            "mysql": "datetime"
+        },
+        "raw(16)": {
+            "sqlserver": "uniqueidentifier",
+            "postgresql": "uuid",
+            "mysql": "binary(16)"
+        }
+    }
+}

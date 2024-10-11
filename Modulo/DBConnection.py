@@ -1,25 +1,43 @@
+from abc import ABC, abstractmethod
 from sqlalchemy import create_engine, text
 import pandas as pd
 import re
 
-class SQLServerConnection:
+class DatabaseConnection(ABC):
+    @abstractmethod
+    def crear_conexion(self):
+        pass
+
+    @abstractmethod
+    def obtener_conexion(self):
+        pass
+
+    @abstractmethod
+    def ejecutar_consulta(self, query):
+        pass
+    @abstractmethod
+    def ejecutar_sentencia(self, sentencia):
+        pass
+
+class SQLServer(DatabaseConnection):
     
-    def __init__(self, usuario, password, servidor, base_datos, puerto = 1433):
+    def __init__(self, user, password, server, database, port = 1433):
         """
         Inicializa la conexión con los atributos necesarios.
         
-        :param usuario: Nombre de usuario para la base de datos
+        :param user: Nombre de usuario para la base de datos
         :param password: Contraseña del usuario
-        :param servidor: Dirección o IP del servidor SQL Server
-        :param base_datos: Nombre de la base de datos a la que se conectará
-        :param puerto: Puerto de la base de datos (por defecto 1433)
+        :param server: Dirección o IP del servidor SQL Server
+        :param database: Nombre de la base de datos a la que se conectará
+        :param port: Puerto de la base de datos (por defecto 1433)
         """
-        self.usuario = usuario
+        self.user = user
         self.password = password
-        self.servidor = servidor
-        self.puerto = puerto
-        self.base_datos = base_datos
+        self.server = server
+        self.port = port
+        self.database = database
         self.engine = None
+        self.type = 'sql_server'
 
     def crear_conexion(self):
         """
@@ -27,7 +45,7 @@ class SQLServerConnection:
         """
         try:
             print('Conectando')
-            conexion_str = f"mssql+pyodbc://{self.usuario}:{self.password}@{self.servidor}:{self.puerto}/{self.base_datos}?driver=ODBC+Driver+17+for+SQL+Server"
+            conexion_str = f"mssql+pyodbc://{self.user}:{self.password}@{self.server}:{self.port}/{self.database}?driver=ODBC+Driver+17+for+SQL+Server"
             self.engine = create_engine(conexion_str)
             
             with self.engine.connect():
@@ -35,6 +53,9 @@ class SQLServerConnection:
         
         except Exception as e:
             return e
+        
+    def obtener_conexion(self):
+        return self.engine
 
     def cerrar_conexion(self):
         if self.engine:
@@ -115,8 +136,14 @@ class SQLServerConnection:
 
         lotes = re.split(r'^\s*GO\s*$', sentencia, flags=re.MULTILINE | re.IGNORECASE)
         return [lote.strip() for lote in lotes if lote.strip()]
+    
+
+class Oracle:
+    
+    def __init__(self):
+        pass
 
 # Ejemplo de uso:
-# conexion = SQLServerConnection('usuario', 'password', 'servidor', 'base_datos', 'puerto')
+# conexion = SQLServer('usuario', 'password', 'servidor', 'base_datos', 'puerto')
 # df = conexion.ejecutar_consulta("SELECT * FROM mi_tabla")
 # conexion.ejecutar_sentencia("CREATE TABLE nueva_tabla (id INT, nombre VARCHAR(50))")

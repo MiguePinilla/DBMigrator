@@ -1,0 +1,17 @@
+{
+    "sql_server": {
+      "user": "python",
+      "password": "contra",
+      "server": "localhost",
+      "port": 1433,
+      "base_datos": "AdventureWorksDW2017"
+    },
+    "oracle": {
+      "user": "tu_user_oracle",
+      "password": "tu_password_oracle",
+      "server": "tu_servidor_oracle",
+      "puerto": 1521,
+      "database": "tu_base_de_datos_oracle"
+    }
+  }
+  
