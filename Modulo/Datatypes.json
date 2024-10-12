@@ -24,17 +24,17 @@
             "postgresql": "smallint",
             "mysql": "smallint"
         },
-        "decimal(p,s)": {
+        "decimal": {
             "feature": {"length": false, "precision_scale": true},
-            "oracle": "number(p,s)",
-            "postgresql": "numeric(p,s)",
-            "mysql": "decimal(p,s)"
+            "oracle": "number",
+            "postgresql": "numeric",
+            "mysql": "decimal"
         },
-        "numeric(p,s)": {
+        "numeric": {
             "feature": {"length": false, "precision_scale": true},
-            "oracle": "number(p,s)",
-            "postgresql": "numeric(p,s)",
-            "mysql": "decimal(p,s)"
+            "oracle": "number",
+            "postgresql": "numeric",
+            "mysql": "decimal"
         },
         "float": {
             "feature": {"length": false, "precision_scale": false},
@@ -56,13 +56,13 @@
         },
         "money": {
             "feature": {"length": false, "precision_scale": false},
-            "oracle": "number(19, 4)",
+            "oracle": "number(19,4)",
             "postgresql": "money",
             "mysql": "decimal(19,4)"
         },
         "smallmoney": {
             "feature": {"length": false, "precision_scale": true},
-            "oracle": "number(10, 4)",
+            "oracle": "number(10,4)",
             "postgresql": "money",
             "mysql": "decimal(10,4)"
         },
@@ -144,6 +144,12 @@
             "postgresql": "bytea",
             "mysql": "varbinary"
         },
+        "varbinary(-1)": {
+            "feature": {"length": false, "precision_scale": false},
+            "oracle": "blob",
+            "postgresql": "bytea",
+            "mysql": "varbinary"
+        },
         "image": {
             "feature": {"length": false, "precision_scale": false},
             "oracle": "blob",
@@ -182,11 +188,11 @@
             "postgresql": "smallint",
             "mysql": "smallint"
         },
-        "number(p,s)": {
+        "number": {
             "feature": {"length": false, "precision_scale": true},
-            "sqlserver": "decimal(p,s)",
-            "postgresql": "numeric(p,s)",
-            "mysql": "decimal(p,s)"
+            "sqlserver": "decimal",
+            "postgresql": "numeric",
+            "mysql": "decimal"
         },
         "float": {
             "feature": {"length": false, "precision_scale": false},
@@ -231,7 +237,7 @@
             "mysql": "text"
         },
         "raw": {
-            "feature": {"length": false, "precision_scale": false},
+            "feature": {"length": true, "precision_scale": false},
             "sqlserver": "binary",
             "postgresql": "bytea",
             "mysql": "binary"

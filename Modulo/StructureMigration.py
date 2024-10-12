@@ -24,9 +24,11 @@ class Migration:
     
     def getOriginStructure(self):
         
-        query = qt.templates[self.OriginCon.type]["schema"].replace('@@DATABASE@@', self.OriginDatabase).replace('@@SCHEMA@@', self.OriginSchema).replace('@@TABLE@@', self.OriginTable)
+        query = qt.templates[self.OriginCon.type]["schema"].replace('@@DATABASE@@', self.OriginDatabase.upper()).replace('@@SCHEMA@@', self.OriginSchema.upper()).replace('@@TABLE@@', self.OriginTable.upper())
 
         self.OriginStructure = self.OriginCon.ejecutar_consulta(query)
+        self.OriginStructure.columns = self.OriginStructure.columns.str.upper()
+
         return self.OriginStructure
     
     def genSyntax(self, row):
@@ -34,26 +36,30 @@ class Migration:
                 types = json.load(type_mapping)
 
         #Obtener Tipo de Dato
-        datatype = row["DATA_TYPE"]
+        datatype = row["DATA_TYPE"].lower()
 
         #Construcción de cadena NULL/NOT NULL
         null_constraint = 'NOT NULL' if row["IS_NULLABLE"] == 'NO' else 'NULL'
 
         #Manejo de longitud y precision/escala
-        features = types["sqlserver"][datatype]["feature"]
+        features = types[self.OriginCon.type][datatype]["feature"]
         if features["length"]:
-            length = f'({int(row["CHARACTER_MAXIMUM_LENGTH"])})'
+            length = f'({int(row["DATA_LENGTH"])})'
         elif features["precision_scale"]:
             length = f'({int(row["NUMERIC_PRECISION"])},{int(row["NUMERIC_SCALE"])})' 
         else:
             length = ''
 
         if self.OriginCon.type != self.DestinyCon.type:
-            if datatype in types[self.OriginCon.type]:
+            if f'{datatype}({int(row["DATA_LENGTH"])})' in types[self.OriginCon.type]: #para identificar data_type(l)
+                datatype = types[self.OriginCon.type][f'{datatype}({int(row["DATA_LENGTH"])})'][self.DestinyCon.type]
+
+            elif datatype in types[self.OriginCon.type]:
                 datatype = types[self.OriginCon.type][datatype][self.DestinyCon.type]
+                datatype = f'{datatype}{length}'
 
         #Construcción de sintaxis
-        syntax = f'{row["COLUMN_NAME"]} {datatype.upper()}{length} {null_constraint}'
+        syntax = f'{row["COLUMN_NAME"]} {datatype.upper()} {null_constraint}'
         return syntax
 
     def genDestinyQuery(self):

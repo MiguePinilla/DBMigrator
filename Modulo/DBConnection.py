@@ -1,7 +1,11 @@
 from abc import ABC, abstractmethod
 from sqlalchemy import create_engine, text
+import oracledb
+
 import pandas as pd
 import re
+
+#oracledb.init_oracle_client()
 
 class DatabaseConnection(ABC):
     @abstractmethod
@@ -44,7 +48,7 @@ class SQLServer(DatabaseConnection):
         Crea la conexión a la base de datos utilizando SQLAlchemy.
         """
         try:
-            print('Conectando')
+            #print('Conectando')
             conexion_str = f"mssql+pyodbc://{self.user}:{self.password}@{self.server}:{self.port}/{self.database}?driver=ODBC+Driver+17+for+SQL+Server"
             self.engine = create_engine(conexion_str)
             
@@ -138,10 +142,92 @@ class SQLServer(DatabaseConnection):
         return [lote.strip() for lote in lotes if lote.strip()]
     
 
-class Oracle:
+class Oracle(DatabaseConnection):
     
-    def __init__(self):
-        pass
+    def __init__(self, user, password, server, servicename, port = 1521):
+        """
+        Inicializa la conexión con los atributos necesarios.
+        
+        :param user: Nombre de usuario para la base de datos
+        :param password: Contraseña del usuario
+        :param server: Dirección o IP del servidor Oracle
+        :param database: Nombre de la base de datos a la que se conectará
+        :param port: Puerto de la base de datos (por defecto 1521)
+        """
+        self.user = user
+        self.password = password
+        self.host = server
+        self.port = port
+        self.servicename = servicename
+        self.engine = None
+        self.type = 'oracle'
+
+    def crear_conexion(self):
+        try:
+            conexion_str = f'oracle+oracledb://{self.user}:{self.password}@{self.host}:{self.port}/?service_name={self.servicename}'
+            self.engine = create_engine(conexion_str)
+            with self.engine.connect() as connection:
+                #print("Conexión exitosa usando SQLAlchemy")
+                pass
+            return True
+
+        except Exception as e:
+            return e
+ 
+    def obtener_conexion(self):
+        return self.engine
+
+ 
+    def ejecutar_consulta(self, query):
+        """
+        Ejecuta una consulta (SELECT) y devuelve los resultados en un DataFrame de pandas.
+        
+        :param query: Consulta SQL a ejecutar
+        :return: DataFrame de pandas con los resultados de la consulta
+        """
+        try:
+            if self.engine is None:
+                print("No hay una conexión activa.")
+                return None
+
+            return pd.read_sql(query, self.engine)
+        
+        except Exception as e:
+            return e
+
+    def ejecutar_sentencia(self, sentencia, raw=False):
+        """
+        Ejecuta una o más sentencias SQL, dividiéndolas en lotes si es necesario.
+        
+        Este método permite ejecutar sentencias SQL de creación de tablas, inserciones u 
+        otras modificaciones de base de datos. Divide la sentencia en lotes utilizando 'GO' 
+        como delimitador, permitiendo ejecutar múltiples comandos dentro de una única transacción.
+        
+        :param sentencia: La sentencia SQL que se desea ejecutar. Puede incluir múltiples 
+                        comandos separados por 'GO'.
+        :param raw: Si se establece en True, utiliza una conexión sin procesar. Por 
+                    defecto es False.
+        :return: Retorna True si la ejecución fue exitosa; de lo contrario, devuelve la 
+                excepción si ocurre un error durante la ejecución de la sentencia.
+        """
+        try:
+            if self.engine is None:
+                print("No hay una conexión activa.")
+                return None
+
+            if raw:
+                con = self.engine.raw_connection()
+                cursor = con.cursor()
+                cursor.execute(sentencia)
+                con.commit()
+                cursor.close()
+            else:
+                with self.engine.connect() as conexion:
+                    conexion.execute(text(sentencia))
+                    conexion.commit()
+            return True
+        except Exception as e:
+            return e
 
 # Ejemplo de uso:
 # conexion = SQLServer('usuario', 'password', 'servidor', 'base_datos', 'puerto')
