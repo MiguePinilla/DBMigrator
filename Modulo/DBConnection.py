@@ -52,8 +52,10 @@ class SQLServer(DatabaseConnection):
             conexion_str = f"mssql+pyodbc://{self.user}:{self.password}@{self.server}:{self.port}/{self.database}?driver=ODBC+Driver+17+for+SQL+Server"
             self.engine = create_engine(conexion_str)
             
-            with self.engine.connect():
-                return True
+            with self.engine.connect() as connection:
+                #print('Conexión exitosa usando SQLAlchemy')
+                pass
+            return True
         
         except Exception as e:
             return e
@@ -167,7 +169,7 @@ class Oracle(DatabaseConnection):
             conexion_str = f'oracle+oracledb://{self.user}:{self.password}@{self.host}:{self.port}/?service_name={self.servicename}'
             self.engine = create_engine(conexion_str)
             with self.engine.connect() as connection:
-                #print("Conexión exitosa usando SQLAlchemy")
+                #print('Conexión exitosa usando SQLAlchemy')
                 pass
             return True
 

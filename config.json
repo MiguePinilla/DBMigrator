@@ -1,5 +1,5 @@
 {
-    "sql_server": {
+    "sqlserver": {
       "user": "python",
       "password": "contra",
       "server": "localhost",

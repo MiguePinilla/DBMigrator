@@ -1,5 +1,5 @@
 templates = {"sqlserver": {
-    "TableCreation" : '''
+    "create_table" : '''
 USE @@DATABASE@@
 GO
 
@@ -53,7 +53,7 @@ WHERE TABLE_SCHEMA = '@@SCHEMA@@' AND TABLE_NAME = '@@TABLE@@'
 	},
     
     "oracle": {
-        "TableCreation": '''
+        "create_table": '''
 CREATE TABLE @@TABLE@@ (
 	@@COLUMNS@@
 )
