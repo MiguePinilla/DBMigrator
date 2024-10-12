@@ -265,6 +265,42 @@
             "sqlserver": "uniqueidentifier",
             "postgresql": "uuid",
             "mysql": "binary(16)"
+        },
+        "timestamp(6)": {
+            "feature": {"length": false, "precision_scale": false},
+            "sqlserver": "datetime2(6)",
+            "postgresql": "timestamp(6)",
+            "mysql": "datetime(6)"
+        },
+        "binary_float": {
+            "feature": {"length": false, "precision_scale": false},
+            "sqlserver": "real",
+            "postgresql": "real",
+            "mysql": "float"
+        },
+        "binary_double": {
+            "feature": {"length": false, "precision_scale": false},
+            "sqlserver": "float",
+            "postgresql": "double precision",
+            "mysql": "double"
+        },
+        "interval year(2) to month": {
+            "feature": {"length": false, "precision_scale": false},
+            "sqlserver": "nvarchar(7)",
+            "postgresql": "interval",
+            "mysql": "varchar(7)"
+        },
+        "interval day(2) to second(6)": {
+            "feature": {"length": false, "precision_scale": false},
+            "sqlserver": "nvarchar(20)",
+            "postgresql": "interval",
+            "mysql": "varchar(20)"
+        },
+        "rowid": {
+            "feature": {"length": false, "precision_scale": false},
+            "sqlserver": "uniqueidentifier",
+            "postgresql": "oid",
+            "mysql": "varchar(64)"
         }
     }
 }

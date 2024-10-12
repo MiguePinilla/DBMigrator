@@ -153,7 +153,7 @@ class Oracle(DatabaseConnection):
         :param user: Nombre de usuario para la base de datos
         :param password: Contraseña del usuario
         :param server: Dirección o IP del servidor Oracle
-        :param database: Nombre de la base de datos a la que se conectará
+        :param servicename: Nombre del de la base de datos a la que se conectará
         :param port: Puerto de la base de datos (por defecto 1521)
         """
         self.user = user
@@ -205,8 +205,7 @@ class Oracle(DatabaseConnection):
         otras modificaciones de base de datos. Divide la sentencia en lotes utilizando 'GO' 
         como delimitador, permitiendo ejecutar múltiples comandos dentro de una única transacción.
         
-        :param sentencia: La sentencia SQL que se desea ejecutar. Puede incluir múltiples 
-                        comandos separados por 'GO'.
+        :param sentencia: La sentencia SQL que se desea ejecutar.
         :param raw: Si se establece en True, utiliza una conexión sin procesar. Por 
                     defecto es False.
         :return: Retorna True si la ejecución fue exitosa; de lo contrario, devuelve la 
@@ -216,20 +215,38 @@ class Oracle(DatabaseConnection):
             if self.engine is None:
                 print("No hay una conexión activa.")
                 return None
+            
+            lotes = self.dividir_en_lotes(sentencia)
 
             if raw:
                 con = self.engine.raw_connection()
                 cursor = con.cursor()
-                cursor.execute(sentencia)
+                for lote in lotes:
+                    if lote.strip():
+                        cursor.execute(lote)
                 con.commit()
                 cursor.close()
             else:
                 with self.engine.connect() as conexion:
-                    conexion.execute(text(sentencia))
+                    for lote in lotes:
+                        if lote.strip():
+                            conexion.execute(text(lote))
                     conexion.commit()
             return True
         except Exception as e:
             return e
+    
+    def dividir_en_lotes(self, sentencia):
+        """
+        Divide una sentencia SQL en lotes separados por el delimitador ';'.
+        
+        :param sentencia: La sentencia SQL que puede contener múltiples comandos separados 
+                          por ';'.
+        :return: Una lista de lotes de comandos SQL, donde cada lote es un comando separado 
+                 listo para ser ejecutado.
+        """
+        lotes = re.split(r';\s*', sentencia)  # Dividir por punto y coma y eliminar espacios
+        return [lote.strip() for lote in lotes if lote.strip()]  # Ignorar lotes vacíos
 
 # Ejemplo de uso:
 # conexion = SQLServer('usuario', 'password', 'servidor', 'base_datos', 'puerto')
