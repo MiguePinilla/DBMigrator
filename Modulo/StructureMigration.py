@@ -1,7 +1,7 @@
 from . import QueryTemplates as qt
 import json
 
-class Migration:
+class StructureMigration:
     def __init__(self):
         """
         Inicializa la clase Migration.
