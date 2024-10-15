@@ -172,10 +172,3 @@ class Migration:
 
         result = self.destiny_connection.ejecutar_sentencia(self.destiny_create_table)
         return result
-    
-
-
-
-
-
-

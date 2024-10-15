@@ -224,15 +224,7 @@ class Oracle(DatabaseConnection):
             columns = re.search(r'(?i)select\s+(.*?)\s+from', query, re.DOTALL).group(1).strip()
             table_info = re.search(r'(?i)from\s+(.*)', query, re.DOTALL).group(1).strip()
 
-            if columns == '*':
-                column_names_query = 'SELECT * FROM ' + table_info + ' FETCH FIRST 0 ROWS ONLY'
-                column_names = pd.read_sql(column_names_query, self.engine).columns.to_list()
-                columns = ','.join(column_names).upper()
-
-                query = 'SELECT JSON_OBJECT(' + columns + ') as json FROM ' + table_info
-            else:
-                query = 'SELECT JSON_OBJECT(' + columns + ') as json FROM ' + table_info
-
+            query = 'SELECT JSON_OBJECT(' + columns + ') as json FROM ' + table_info
 
             resultado = pd.read_sql(query, self.engine)
             resultado = '[' + ','.join(resultado["json"]) + ']'

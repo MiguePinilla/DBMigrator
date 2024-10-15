@@ -139,4 +139,4 @@ cython_debug/
 
 prueba.py
 Querying.ipynb
-query_Result.json
+query_result*.json
