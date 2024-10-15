@@ -11,7 +11,7 @@ Este proyecto proporciona un conjunto de herramientas para la migración de estr
 
 ## Archivos Clave
 
-### `dbconnection.py`
+### `DBConnection.py`
 
 Define las clases base para manejar las conexiones a las bases de datos, así como las implementaciones específicas para SQL Server y Oracle.
 
@@ -25,18 +25,16 @@ Define las clases base para manejar las conexiones a las bases de datos, así co
 - `ejecutar_consulta_dataframe(query)`: Ejecuta una consulta y devuelve los resultados en un DataFrame de pandas.
 - `ejecutar_sentencia(sentencia, raw=False)`: Ejecuta sentencias SQL, dividiendo en lotes si es necesario.
   
-### `StructureMigration.py`
+### `Migration.py`
 
-Este archivo define la clase `Migration` que maneja la migración de estructuras de tablas entre diferentes bases de datos.
+Este archivo define la clase `Migration` que maneja la migración de estructuras y datos de tablas entre diferentes bases de datos.
 
 #### Características clave:
 - **set_origin(database_object, database, schema, table)**: Establece la conexión a la base de datos de origen y define los parámetros de la tabla.
 - **set_destiny(database_object, database, schema, table)**: Establece la conexión a la base de datos de destino.
 - **generate_destiny_create_table()**: Genera el SQL para crear la tabla en la base de datos de destino, basándose en la estructura de la base de datos de origen.
+- **migracion.run_data_migration()**: Ejecuta el proceso de migración de datos entre bases de datos y la migración de estructura de ser necesario.
   
-### `DataMigration.py`
-
-Contiene la clase `Migration` para la migración de datos entre bases de datos. Actualmente es una implementación en desarrollo que servirá de complemento al proceso de migración estructural definido en `StructureMigration.py`.
 
 ### `Datatypes.json`
 
@@ -58,11 +56,11 @@ Contiene plantillas SQL para operaciones comunes en cada tipo de base de datos. 
 ## Uso
 ### Ejemplo de uso básico:
 ```python
-from dbconnection import SQLServer
+import DBConnection as db
 from StructureMigration import Migration
 
 # Conexión a la base de datos SQL Server de origen
-conexion_origen = SQLServer('usuario', 'password', 'servidor', 'base_datos')
+conexion_origen = db.SQLServer('usuario', 'password', 'servidor', 'base_datos')
 conexion_origen.crear_conexion()
 
 # Configuración de migración
@@ -70,13 +68,16 @@ migration = Migration()
 migration.set_origin(conexion_origen, 'mi_base_datos', 'dbo', 'mi_tabla')
 
 # Conexión a la base de datos de destino (Oracle en este caso)
-conexion_destino = Oracle('usuario', 'password', 'servidor', 'servicio')
+conexion_destino = db.Oracle('usuario', 'password', 'servidor', 'servicio')
 conexion_destino.crear_conexion()
 
 migration.set_destiny(conexion_destino, 'base_destino', 'esquema_destino', 'tabla_destino')
 
-# Ejecutar la migración
+# Ejecutar la migración de estructura
 migration.run_structure_migration()
+
+# Ejecutar la migración de datos
+migration.run_data_migration()
 ```
 ## Migración de Estructura:
 1. Establecer las conexiones de origen y destino.

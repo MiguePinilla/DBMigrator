@@ -1,7 +1,7 @@
 from . import QueryTemplates as qt
 import json
 
-class Migration:
+class StructureMigration:
     def __init__(self):
         """
         Inicializa la clase Migration.
@@ -20,9 +20,9 @@ class Migration:
         :param table: Nombre de la tabla de origen.
         """
         self.origin_connection = database_object
-        self.origin_database = database
-        self.origin_schema = schema
-        self.origin_table = table
+        self.origin_database = database.strip()
+        self.origin_schema = schema.strip()
+        self.origin_table = table.strip()
 
     def set_destiny(self, database_object, database, schema, table):
         """
@@ -34,9 +34,9 @@ class Migration:
         :param table: Nombre de la tabla de destino.
         """
         self.destiny_connection = database_object
-        self.destiny_database = database
-        self.destiny_schema = schema
-        self.destiny_table = table
+        self.destiny_database = database.strip()
+        self.destiny_schema = schema.strip()
+        self.destiny_table = table.strip()
 
     def migration_type(self):
         """
@@ -115,6 +115,7 @@ class Migration:
                 if features["length"] == True:
                     final_length = f'({data_length})'
                 elif features["precision_scale"] == True:
+                    data_precision = data_length if data_precision == 0 else data_precision
                     final_length = f'({data_precision},{data_scale})'
                 else:
                     final_length = ''
@@ -159,7 +160,7 @@ class Migration:
         
         self.destiny_create_table = query
         return self.destiny_create_table
-    
+
     def run_structure_migration(self):
         """
         Ejecuta la migración de la estructura de la tabla al destino.
@@ -167,8 +168,12 @@ class Migration:
 
         :return: Resultado de la ejecución de la sentencia para crear la tabla en la base de datos de destino. (True/Error)
         """
-        if type(self.destiny_create_table) == type(None):
-            self.generate_destiny_create_table()
+        try:
+            if type(self.destiny_create_table) == type(None):
+                self.generate_destiny_create_table()
 
-        result = self.destiny_connection.ejecutar_sentencia(self.destiny_create_table)
-        return result
+            result = self.destiny_connection.ejecutar_sentencia(self.destiny_create_table)
+
+            return result
+        except Exception as e:
+            return f'Error en la Migración de Estructura: {str(e)}'

@@ -85,12 +85,19 @@ class SQLServer(DatabaseConnection):
             return e
         
     def ejecutar_consulta_json(self, query):
+        """
+        Ejecuta una consulta (SELECT) y devuelve los resultados en una cadena con formato JSON.
+        
+        :param query: Consulta SQL a ejecutar
+        :return: Cadena formato JSON con los resultados de la consulta
+        """
         try:
             if self.engine is None:
                 print("No hay una conexión activa.")
                 return None
             query = query.strip() + ' FOR JSON AUTO, INCLUDE_NULL_VALUES'
             result = pd.read_sql(query, self.engine)
+            print(result)
             result = ''.join(result[result.columns[0]])
             return result
         
@@ -210,10 +217,10 @@ class Oracle(DatabaseConnection):
         
     def ejecutar_consulta_json(self, query):
         """
-        Ejecuta una consulta (SELECT) y devuelve los resultados en un DataFrame de pandas.
+        Ejecuta una consulta (SELECT) y devuelve los resultados en una cadena con formato JSON.
         
         :param query: Consulta SQL a ejecutar
-        :return: DataFrame de pandas con los resultados de la consulta
+        :return: Cadena formato JSON con los resultados de la consulta
         """
         try:
             if self.engine is None:
@@ -281,7 +288,7 @@ class Oracle(DatabaseConnection):
         :return: Una lista de lotes de comandos SQL, donde cada lote es un comando separado 
                  listo para ser ejecutado.
         """
-        lotes = re.split(r';\s*', sentencia)  # Dividir por punto y coma y eliminar espacios
+        lotes = re.split(r'/\s*', sentencia)  # Dividir por punto y coma y eliminar espacios
         return [lote.strip() for lote in lotes if lote.strip()]  # Ignorar lotes vacíos
 
 # Ejemplo de uso:
