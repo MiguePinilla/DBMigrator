@@ -4,7 +4,7 @@ Este proyecto proporciona un conjunto de herramientas para la migración de estr
 
 ## Características Principales
 
-- Migración de estructuras de tablas entre bases de datos (SQL Server, Oracle, PostgreSQL, MySQL).
+- Migración de estructuras de tablas entre bases de datos (SQL Server, Oracle y proximamente otras).
 - Migración de datos entre bases de datos utilizando sentencias SQL.
 - Consultas personalizadas que retornan los resultados en formato JSON o DataFrames de pandas.
 - Creación de tablas en bases de datos de destino, con soporte para distintos tipos de datos y conversiones entre tipos.
@@ -23,17 +23,18 @@ Define las clases base para manejar las conexiones a las bases de datos, así co
 #### Métodos relevantes:
 - `crear_conexion()`: Crea una conexión a la base de datos.
 - `ejecutar_consulta_dataframe(query)`: Ejecuta una consulta y devuelve los resultados en un DataFrame de pandas.
+- - `ejecutar_consulta_json(query)`: Ejecuta una consulta y devuelve los resultados en formato JSON.
 - `ejecutar_sentencia(sentencia, raw=False)`: Ejecuta sentencias SQL, dividiendo en lotes si es necesario.
   
-### `Migration.py`
+### `StructureMigration.py`
 
-Este archivo define la clase `Migration` que maneja la migración de estructuras y datos de tablas entre diferentes bases de datos.
+Este archivo define la clase `StructureMigration` que maneja la migración de estructuras de tablas entre diferentes bases de datos.
 
 #### Características clave:
 - **set_origin(database_object, database, schema, table)**: Establece la conexión a la base de datos de origen y define los parámetros de la tabla.
 - **set_destiny(database_object, database, schema, table)**: Establece la conexión a la base de datos de destino.
 - **generate_destiny_create_table()**: Genera el SQL para crear la tabla en la base de datos de destino, basándose en la estructura de la base de datos de origen.
-- **migracion.run_data_migration()**: Ejecuta el proceso de migración de datos entre bases de datos y la migración de estructura de ser necesario.
+- **migracion.run_structure_migration()**: Ejecuta el proceso de migración de estructuras.
   
 
 ### `Datatypes.json`
