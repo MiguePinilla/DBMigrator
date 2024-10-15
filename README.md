@@ -88,4 +88,4 @@ migration.run_data_migration()
 Si deseas contribuir, por favor crea un pull request o abre un issue para discutir los cambios propuestos.
 
 ## Licencia
-Este proyecto está bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
+Este proyecto está bajo la Licencia MIT.

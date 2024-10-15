@@ -49,9 +49,8 @@ class DataMigration(st.StructureMigration):
             if type(self.destiny_create_table) == type(None):
                 self.generate_destiny_create_table()
 
-
             destiny_already_exists = self.check_destiny_table_exists()
-            
+
             if destiny_already_exists == True:
                 if truncate == True:
                     self.truncate_destiny_table()
@@ -66,7 +65,7 @@ class DataMigration(st.StructureMigration):
             columns = self.generate_columns()
 
             insert_query = qt.templates[self.destiny_connection.type]["insert_json"].replace(
-                '@@JSON@@', origin_data.replace("'", "''")
+                '@@JSON@@', origin_data
             ).replace(
                 "@@DATABASE@@", self.destiny_database
             ).replace(

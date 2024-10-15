@@ -32,6 +32,16 @@ FROM @@DATABASE@@.INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_SCHEMA = '@@SCHEMA@@' AND TABLE_NAME = '@@TABLE@@'
 	''',
     
+	"table": '''
+SELECT 1
+FROM @@DATABASE@@.INFORMATION_SCHEMA.TABLES 
+WHERE TABLE_SCHEMA = '@@SCHEMA@@' AND TABLE_NAME = '@@TABLE@@'
+	''',
+    
+	"truncate_Table": '''
+TRUNCATE TABLE @@DATABASE@@.@@SCHEMA@@.@@TABLE@@
+	''',
+    
     "insert_json": '''
 DECLARE @JSON AS NVARCHAR(MAX) = '@@JSON@@'
 
@@ -66,6 +76,33 @@ SELECT
     
 FROM all_tab_columns
 WHERE  TABLE_NAME = '@@TABLE@@' --AND OWNER = '@@SCHEMA@@'
+	''',
+    
+	"table": '''
+SELECT 1 FROM ALL_TABLES WHERE TABLE_NAME = '@@TABLE@@' --AND OWNER = '@@SCHEMA@@'
+	''',
+    
+	"truncate_Table": '''
+TRUNCATE TABLE @@TABLE@@
+	''',
+    
+    "insert_json": '''
+DECLARE
+    v_json CLOB;
+    
+BEGIN
+    v_json := '@@JSON@@';
+    
+    INSERT INTO @@TABLE@@
+    SELECT * FROM JSON_TABLE(
+        v_json,
+        '$[*]' COLUMNS (
+            @@COLUMNS@@
+        )
+    );
+    
+END;
+/
 	'''
 	}
 }
