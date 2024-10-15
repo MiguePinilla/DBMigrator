@@ -57,14 +57,14 @@ Contiene plantillas SQL para operaciones comunes en cada tipo de base de datos. 
 ### Ejemplo de uso básico:
 ```python
 import DBConnection as db
-from StructureMigration import Migration
+from StructureMigration import StructureMigration
 
 # Conexión a la base de datos SQL Server de origen
 conexion_origen = db.SQLServer('usuario', 'password', 'servidor', 'base_datos')
 conexion_origen.crear_conexion()
 
 # Configuración de migración
-migration = Migration()
+migration = StructureMigration()
 migration.set_origin(conexion_origen, 'mi_base_datos', 'dbo', 'mi_tabla')
 
 # Conexión a la base de datos de destino (Oracle en este caso)
@@ -76,12 +76,10 @@ migration.set_destiny(conexion_destino, 'base_destino', 'esquema_destino', 'tabl
 # Ejecutar la migración de estructura
 migration.run_structure_migration()
 
-# Ejecutar la migración de datos
-migration.run_data_migration()
 ```
 ## Migración de Estructura:
 1. Establecer las conexiones de origen y destino.
-2. Generar la tabla en el destino utilizando generate_destiny_create_table().
+2. Establecer la ruta origen con set_origin() y el destino con set_destiny().
 3. Ejecutar la migración de estructura utilizando run_structure_migration().
 
 ## Contribuciones
