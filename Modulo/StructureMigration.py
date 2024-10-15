@@ -54,9 +54,14 @@ class Migration:
         :return: DataFrame de pandas con la estructura de la tabla de origen.
         """
         
-        query = qt.templates[self.origin_connection.type]["schema"].replace('@@DATABASE@@', self.origin_database.upper()).replace('@@SCHEMA@@', self.origin_schema.upper()).replace('@@TABLE@@', self.origin_table.upper())
+        query = qt.templates[self.origin_connection.type]["schema"].replace(
+                '@@DATABASE@@', self.origin_database.upper()
+            ).replace(
+                '@@SCHEMA@@', self.origin_schema.upper()
+            ).replace(
+                '@@TABLE@@', self.origin_table.upper())
 
-        self.origin_structure = self.origin_connection.ejecutar_consulta(query)
+        self.origin_structure = self.origin_connection.ejecutar_consulta_dataframe(query)
 
         self.origin_structure.columns = self.origin_structure.columns.str.upper()
         return self.origin_structure
@@ -80,7 +85,7 @@ class Migration:
         column_name = row["COLUMN_NAME"]
         data_type = row["DATA_TYPE"].lower()  
         data_length = int(row["DATA_LENGTH"])
-        data_precision = int(row["NUMERIC_SCALE"])
+        data_precision = int(row["NUMERIC_PRECISION"])
         data_scale = int(row["NUMERIC_SCALE"])
         data_null = 'NOT NULL' if row["IS_NULLABLE"] == 'NO' else 'NULL'
 
@@ -146,9 +151,13 @@ class Migration:
 
         columns = self.origin_structure.apply(self.generate_row_syntax, axis = 1)
         columns = ',\n        '.join(columns)
-        query = qt.templates[self.destiny_connection.type]["create_table"].replace('@@DATABASE@@', self.destiny_database).replace('@@SCHEMA@@', self.destiny_schema).replace('@@TABLE@@', self.destiny_table)
+        query = qt.templates[self.destiny_connection.type]["create_table"].replace(
+                '@@DATABASE@@', self.destiny_database
+            ).replace('@@SCHEMA@@', self.destiny_schema).replace(
+                '@@TABLE@@', self.destiny_table
+            ).replace('@@COLUMNS@@', columns)
         
-        self.destiny_create_table = query.replace('@@COLUMNS@@', columns)
+        self.destiny_create_table = query
         return self.destiny_create_table
     
     def run_structure_migration(self):

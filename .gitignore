@@ -138,3 +138,5 @@ dmypy.json
 cython_debug/
 
 prueba.py
+Querying.ipynb
+query_Result.json

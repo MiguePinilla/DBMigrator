@@ -1,11 +1,9 @@
 from abc import ABC, abstractmethod
 from sqlalchemy import create_engine, text
-import oracledb
+#import oracledb
 
 import pandas as pd
 import re
-
-#oracledb.init_oracle_client()
 
 class DatabaseConnection(ABC):
     @abstractmethod
@@ -17,7 +15,7 @@ class DatabaseConnection(ABC):
         pass
 
     @abstractmethod
-    def ejecutar_consulta(self, query):
+    def ejecutar_consulta_dataframe(self, query):
         pass
     @abstractmethod
     def ejecutar_sentencia(self, sentencia):
@@ -67,7 +65,7 @@ class SQLServer(DatabaseConnection):
         if self.engine:
             self.engine.dispose()
 
-    def ejecutar_consulta(self, query):
+    def ejecutar_consulta_dataframe(self, query):
         """
         Ejecuta una consulta (SELECT) y devuelve los resultados en un DataFrame de pandas.
         
@@ -82,6 +80,19 @@ class SQLServer(DatabaseConnection):
             with self.engine.connect() as conexion:
                 resultado = pd.read_sql(text(query), conexion)
             return resultado
+        
+        except Exception as e:
+            return e
+        
+    def ejecutar_consulta_json(self, query):
+        try:
+            if self.engine is None:
+                print("No hay una conexión activa.")
+                return None
+            query = query.strip() + ' FOR JSON AUTO, INCLUDE_NULL_VALUES'
+            result = pd.read_sql(query, self.engine)
+            result = ''.join(result[result.columns[0]])
+            return result
         
         except Exception as e:
             return e
@@ -180,7 +191,7 @@ class Oracle(DatabaseConnection):
         return self.engine
 
  
-    def ejecutar_consulta(self, query):
+    def ejecutar_consulta_dataframe(self, query):
         """
         Ejecuta una consulta (SELECT) y devuelve los resultados en un DataFrame de pandas.
         
@@ -193,6 +204,39 @@ class Oracle(DatabaseConnection):
                 return None
 
             return pd.read_sql(query, self.engine)
+        
+        except Exception as e:
+            return e
+        
+    def ejecutar_consulta_json(self, query):
+        """
+        Ejecuta una consulta (SELECT) y devuelve los resultados en un DataFrame de pandas.
+        
+        :param query: Consulta SQL a ejecutar
+        :return: DataFrame de pandas con los resultados de la consulta
+        """
+        try:
+            if self.engine is None:
+                print("No hay una conexión activa.")
+                return None
+
+            #REESTRUCTURACION DE QUERYS
+            columns = re.search(r'(?i)select\s+(.*?)\s+from', query, re.DOTALL).group(1).strip()
+            table_info = re.search(r'(?i)from\s+(.*)', query, re.DOTALL).group(1).strip()
+
+            if columns == '*':
+                column_names_query = 'SELECT * FROM ' + table_info + ' FETCH FIRST 0 ROWS ONLY'
+                column_names = pd.read_sql(column_names_query, self.engine).columns.to_list()
+                columns = ','.join(column_names).upper()
+
+                query = 'SELECT JSON_OBJECT(' + columns + ') as json FROM ' + table_info
+            else:
+                query = 'SELECT JSON_OBJECT(' + columns + ') as json FROM ' + table_info
+
+
+            resultado = pd.read_sql(query, self.engine)
+            resultado = '[' + ','.join(resultado["json"]) + ']'
+            return resultado
         
         except Exception as e:
             return e
@@ -250,5 +294,5 @@ class Oracle(DatabaseConnection):
 
 # Ejemplo de uso:
 # conexion = SQLServer('usuario', 'password', 'servidor', 'base_datos', 'puerto')
-# df = conexion.ejecutar_consulta("SELECT * FROM mi_tabla")
+# df = conexion.ejecutar_consulta_dataframe("SELECT * FROM mi_tabla")
 # conexion.ejecutar_sentencia("CREATE TABLE nueva_tabla (id INT, nombre VARCHAR(50))")

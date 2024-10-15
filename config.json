@@ -1,18 +1,18 @@
 {
-    "sqlserver": {
-      "user": "python",
-      "password": "contra",
-      "server": "localhost",
-      "port": 1433,
-      "database": "AdventureWorksDW2017"
-    },
-    "oracle": {
-      "user": "python",
-      "password": "contra",
-      "server": "localhost",
-      "port": 1521,
-      "database": "XEPDB1",
-      "servicename": "XEPDB1"
-    }
+  "sqlserver": {
+    "user": "python",
+    "password": "contra",
+    "server": "localhost",
+    "port": 1433,
+    "database": "AdventureWorksDW2017"
+  },
+  "oracle": {
+    "user": "python",
+    "password": "contra",
+    "server": "localhost",
+    "port": 1521,
+    "database": "XEPDB1",
+    "servicename": "XEPDB1"
   }
+}
   
