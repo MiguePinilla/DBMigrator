@@ -1,0 +1,4 @@
+sqlalchemy==2.0.0   # O la versión más reciente que estés usando
+pandas==2.0.0       # O la versión más reciente que estés usando
+pyodbc==4.0.34      # Versión para conectar con SQL Server
+oracledb==1.0.0     # O la versión más reciente si necesitas soporte para Oracle
